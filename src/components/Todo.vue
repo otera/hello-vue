@@ -52,6 +52,7 @@ export default {
         isChecked: false,
       };
       this.items.push(item);
+      this.newItemTitle = "";
     },
     deleteTodo() {
       this.items = this.items.filter((item) => {
