@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import ToDo from "../views/Todo.vue";
+import Drag from "../views/Drag.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes = [
     path: "/todo",
     name: "Todo",
     component: ToDo,
+  },
+  {
+    path: "/drag",
+    name: "Drag",
+    component: Drag,
   },
 ];
 
