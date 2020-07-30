@@ -1,24 +1,31 @@
 <template>
   <div class="todo">
-    <ul>
-      <li v-for="item in items" :key="item.index">
-        <label :class="{ checked: item.isChecked }">
-          <input type="checkbox" v-model="item.isChecked" /> {{ item.title }}
-        </label>
-      </li>
-    </ul>
+    <b-card-group deck>
+      <b-card header="Card with list group">
+        <b-list-group>
+          <b-list-group-item v-for="item in items" :key="item.index">
+            <label :class="{ checked: item.isChecked }">
+              <input type="checkbox" v-model="item.isChecked" />
+              {{ item.title }}
+            </label>
+          </b-list-group-item>
+        </b-list-group>
+      </b-card>
+    </b-card-group>
     <div>
-      <input
+      <b-input
         type="text"
         placeholder="タスクを入力してみよう"
         v-model="newItemTitle"
       />
     </div>
     <div>
-      <button @click="addTodo(newItemTitle)">タスクを追加する</button>
-      <button @click="deleteTodo(newItemTitle)">
+      <b-button @click="addTodo(newItemTitle)" variant="outline-primary">
+        タスクを追加する
+      </b-button>
+      <b-button @click="deleteTodo(newItemTitle)" variant="outline-primary">
         チェックをつけたタスクを削除する
-      </button>
+      </b-button>
     </div>
   </div>
 </template>
