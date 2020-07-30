@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import ToDo from "../views/Todo.vue";
 import Drag from "../views/Drag.vue";
+import ViewChart from "../views/ViewChart.vue";
 
 Vue.use(VueRouter);
 
@@ -30,6 +31,11 @@ const routes = [
     path: "/drag",
     name: "Drag",
     component: Drag,
+  },
+  {
+    path: "/chart",
+    name: "ViewChart",
+    component: ViewChart,
   },
 ];
 
