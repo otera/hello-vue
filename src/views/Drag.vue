@@ -5,13 +5,22 @@
 
       <table class="table table-striped">
         <thead class="thead-dark">
-          <draggable v-model="headers" tag="tr">
-            <th v-for="header in headers" :key="header.key" scope="col">{{ header.name }}</th>
+          <draggable
+            v-model="headers"
+            :options="{ handle: '.item-handle' }"
+            tag="tr"
+          >
+            <th v-for="header in headers" :key="header.key" scope="col">
+              <span class="item-handle">::</span>
+              {{ header.name }}
+            </th>
           </draggable>
         </thead>
         <tbody>
           <tr v-for="item in list" :key="item.name">
-            <td v-for="header in headers" :key="header.key">{{ item[header.key] }}</td>
+            <td v-for="header in headers" :key="header.key">
+              {{ item[header.key] }}
+            </td>
           </tr>
         </tbody>
       </table>
