@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import ToDo from "../views/Todo.vue";
 import Drag from "../views/Drag.vue";
 import ViewChart from "../views/ViewChart.vue";
+import ViewModal from "../views/ViewModal.vue";
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,11 @@ const routes = [
     path: "/chart",
     name: "ViewChart",
     component: ViewChart,
+  },
+  {
+    path: "/modal",
+    name: "ViewModal",
+    component: ViewModal,
   },
 ];
 
