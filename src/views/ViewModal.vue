@@ -2,7 +2,7 @@
   <div>
     <!-- b-modalのIDで呼べる -->
     <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button>
-    <ModalComponent />
+    <ModalComponent :requrl="reqUrl" :items="items" />
   </div>
 </template>
 
@@ -15,7 +15,10 @@ export default {
     ModalComponent,
   },
   data() {
-    return {};
+    return {
+      reqUrl: "htto://localhost:8080/test",
+      items: ["AAA", "BBB", "CCC", "DDD", "EEE"],
+    };
   },
   methods: {},
 };

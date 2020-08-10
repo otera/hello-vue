@@ -28,6 +28,16 @@
 <script>
 export default {
   name: "ModalComponent",
+  props: {
+    requrl: {
+      type: String,
+      required: true,
+    },
+    items: Array,
+  },
+  created() {
+    console.log(this);
+  },
   data() {
     return {
       name: "",
@@ -60,6 +70,8 @@ export default {
       this.submittedNames.push(this.name);
 
       console.log(this.submittedNames);
+      console.log(this.requrl);
+      console.log(this.items);
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
