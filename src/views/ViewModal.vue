@@ -17,7 +17,12 @@ export default {
   data() {
     return {
       reqUrl: "htto://localhost:8080/test",
-      items: ["AAA", "BBB", "CCC", "DDD", "EEE"],
+      items: [
+        { name: "AAA" },
+        { name: "BBB" },
+        { name: "CCC" },
+        { name: "DDD" },
+      ],
     };
   },
   methods: {},

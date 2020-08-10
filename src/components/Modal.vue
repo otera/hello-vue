@@ -2,76 +2,100 @@
   <b-modal
     id="modal-prevent-closing"
     ref="modal"
-    title="Submit Your Name"
-    @show="resetModal"
+    title="Change Modal"
+    @show="showInit"
     @hidden="resetModal"
     @ok="handleOk"
   >
-    <form ref="form" @submit.stop.prevent="handleSubmit">
-      <b-form-group
-        :state="nameState"
-        label="Name"
-        label-for="name-input"
-        invalid-feedback="Name is required"
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Old Name</th>
+          <th scope="col">New Name</th>
+        </tr>
+      </thead>
+      <draggable
+        v-model="tableData"
+        :options="{ handle: '.item-handle' }"
+        tag="tbody"
       >
-        <b-form-input
-          id="name-input"
-          v-model="name"
-          :state="nameState"
-          required
-        ></b-form-input>
-      </b-form-group>
-    </form>
+        <tr v-for="item in tableData" :key="item.name">
+          <td scope="row"><span class="item-handle">::</span></td>
+          <td>{{ item.name }}</td>
+          <td><b-form-input type="text" v-model="item.newName" /></td>
+        </tr>
+      </draggable>
+    </table>
   </b-modal>
 </template>
 
 <script>
+import draggable from "vuedraggable";
 export default {
   name: "ModalComponent",
   props: {
+    /** 送信リクエスト先 */
     requrl: {
       type: String,
       required: true,
     },
+    /** テーブル表示用データ */
     items: Array,
   },
   created() {
     console.log(this);
   },
+  components: {
+    draggable,
+  },
   data() {
     return {
       name: "",
       nameState: null,
-      submittedNames: [],
+      /** 初期表示時：テーブルデータ */
+      initTableData: [],
+      /** テーブルデータ */
+      tableData: [],
     };
   },
   methods: {
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
-      return valid;
+    /** 表示時に呼びたい */
+    showInit() {
+      // データを作り直す
+      this.tableData = [];
+      this.items.forEach((data) => {
+        this.tableData.push({ name: data.name, newName: "" });
+      });
+      // 初期表示状態のデータを持っておく
+      this.initTableData = this.tableData.slice();
     },
+    /** hiddenされた時 */
     resetModal() {
       this.name = "";
       this.nameState = null;
     },
+    /** デフォルトのOKボタンが押下された */
     handleOk(bvModalEvt) {
       // Prevent modal from closing
       bvModalEvt.preventDefault();
       // Trigger submit handler
       this.handleSubmit();
     },
+    /** トリガー送信 */
     handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      // Push the name to submitted names
-      this.submittedNames.push(this.name);
+      this.tableData.forEach((data, index) => {
+        // new name check
+        const nname = data.newName.trim();
+        if (nname.length === 0) {
+          console.log("name is not updated");
+        }
 
-      console.log(this.submittedNames);
-      console.log(this.requrl);
-      console.log(this.items);
+        console.log(index, data);
+      });
+
+      console.log("initTableData", this.initTableData);
+
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
@@ -82,4 +106,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.item-handle {
+  font-size: 20px;
+}
+</style>
