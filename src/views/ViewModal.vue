@@ -1,5 +1,9 @@
 <template>
-  <ModalComponent></ModalComponent>
+  <div>
+    <!-- b-modalのIDで呼べる -->
+    <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button>
+    <ModalComponent />
+  </div>
 </template>
 
 <script>

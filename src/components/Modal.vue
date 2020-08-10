@@ -1,33 +1,69 @@
 <template>
-  <div>
-    <b-button @click="showModal" ref="btnShow">Open Modal</b-button>
-    <b-button @click="toggleModal" ref="btnToggle">Toggle Modal</b-button>
-
-    <b-modal id="modal-tall" ref="my-modal" hide-footer title="Using Component Methods">
-      <div class="d-block text-center">
-        <h3>Hello From My Modal!</h3>
-      </div>
-      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
-      <b-button class="mt-2" variant="outline-warning" block @click="toggleModal">Toggle Me</b-button>
-      <p v-for="(item,index) in [1,2,3,4,5,6,7,8,9,0]" :key="index">{{item}}</p>
-    </b-modal>
-  </div>
+  <b-modal
+    id="modal-prevent-closing"
+    ref="modal"
+    title="Submit Your Name"
+    @show="resetModal"
+    @hidden="resetModal"
+    @ok="handleOk"
+  >
+    <form ref="form" @submit.stop.prevent="handleSubmit">
+      <b-form-group
+        :state="nameState"
+        label="Name"
+        label-for="name-input"
+        invalid-feedback="Name is required"
+      >
+        <b-form-input
+          id="name-input"
+          v-model="name"
+          :state="nameState"
+          required
+        ></b-form-input>
+      </b-form-group>
+    </form>
+  </b-modal>
 </template>
 
 <script>
 export default {
   name: "ModalComponent",
+  data() {
+    return {
+      name: "",
+      nameState: null,
+      submittedNames: [],
+    };
+  },
   methods: {
-    showModal() {
-      this.$refs["my-modal"].show();
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.nameState = valid;
+      return valid;
     },
-    hideModal() {
-      this.$refs["my-modal"].hide();
+    resetModal() {
+      this.name = "";
+      this.nameState = null;
     },
-    toggleModal() {
-      // We pass the ID of the button that we want to return focus to
-      // when the modal has hidden
-      this.$refs["my-modal"].toggle("#toggle-btn");
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
+      // Trigger submit handler
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      // Push the name to submitted names
+      this.submittedNames.push(this.name);
+
+      console.log(this.submittedNames);
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide("modal-prevent-closing");
+      });
     },
   },
 };
