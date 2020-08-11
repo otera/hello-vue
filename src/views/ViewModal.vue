@@ -2,7 +2,7 @@
   <div>
     <!-- b-modalのIDで呼べる -->
     <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button>
-    <ModalComponent :requrl="reqUrl" :items="items" />
+    <ModalComponent :requrl="reqUrl" :items="items" :change="this.callTest" />
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import ModalComponent from "@/components/Modal.vue";
 export default {
   name: "ViewModal",
   components: {
-    ModalComponent,
+    ModalComponent
   },
   data() {
     return {
@@ -21,11 +21,16 @@ export default {
         { name: "AAA" },
         { name: "BBB" },
         { name: "CCC" },
-        { name: "DDD" },
-      ],
+        { name: "DDD" }
+      ]
     };
   },
-  methods: {},
+  methods: {
+    /** 子から関数呼ぶテスト */
+    callTest(data) {
+      console.log("Call Test", data);
+    }
+  }
 };
 </script>
 

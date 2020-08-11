@@ -38,16 +38,18 @@ export default {
     /** 送信リクエスト先 */
     requrl: {
       type: String,
-      required: true,
+      required: true
     },
     /** テーブル表示用データ */
     items: Array,
+    /** 親の関数を呼ぶ */
+    change: Function
   },
   created() {
     console.log(this);
   },
   components: {
-    draggable,
+    draggable
   },
   data() {
     return {
@@ -56,7 +58,7 @@ export default {
       /** 初期表示時：テーブルデータ */
       initTableData: [],
       /** テーブルデータ */
-      tableData: [],
+      tableData: []
     };
   },
   methods: {
@@ -64,7 +66,7 @@ export default {
     showInit() {
       // データを作り直す
       this.tableData = [];
-      this.items.forEach((data) => {
+      this.items.forEach(data => {
         this.tableData.push({ name: data.name, newName: "" });
       });
       // 初期表示状態のデータを持っておく
@@ -100,8 +102,11 @@ export default {
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
       });
-    },
-  },
+
+      // 親の関数を呼ぶ
+      this.change(this.tableData);
+    }
+  }
 };
 </script>
 
