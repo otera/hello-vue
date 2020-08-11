@@ -105,6 +105,7 @@ export default {
 
       // 親の関数を呼ぶ
       this.change(this.tableData);
+      this.$emit("emitChange", this.tableData);
     }
   }
 };

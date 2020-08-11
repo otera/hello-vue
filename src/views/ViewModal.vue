@@ -2,7 +2,12 @@
   <div>
     <!-- b-modalのIDで呼べる -->
     <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button>
-    <ModalComponent :requrl="reqUrl" :items="items" :change="this.callTest" />
+    <ModalComponent
+      :requrl="reqUrl"
+      :items="items"
+      :change="this.callTest"
+      @emitChange="callTestSecond"
+    />
   </div>
 </template>
 
@@ -29,6 +34,10 @@ export default {
     /** 子から関数呼ぶテスト */
     callTest(data) {
       console.log("Call Test", data);
+    },
+    /** 子から関数呼ぶテスト2 */
+    callTestSecond(data) {
+      console.log("Call Test 2", data);
     }
   }
 };
