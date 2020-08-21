@@ -1,33 +1,36 @@
 <template>
-  <b-modal
-    id="modal-prevent-closing"
-    ref="modal"
-    title="Change Modal"
-    @show="showInit"
-    @hidden="resetModal"
-    @ok="handleOk"
-  >
-    <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">Old Name</th>
-          <th scope="col">New Name</th>
-        </tr>
-      </thead>
-      <draggable
-        v-model="tableData"
-        :options="{ handle: '.item-handle' }"
-        tag="tbody"
-      >
-        <tr v-for="item in tableData" :key="item.name">
-          <td scope="row"><span class="item-handle">::</span></td>
-          <td>{{ item.name }}</td>
-          <td><b-form-input type="text" v-model="item.newName" /></td>
-        </tr>
-      </draggable>
-    </table>
-  </b-modal>
+  <div>
+    <b-overlay :show="isBusy" no-wrap fixed z-index="1100"></b-overlay>
+    <b-modal
+      id="modal-prevent-closing"
+      ref="modal"
+      title="Change Modal"
+      @show="showInit"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Old Name</th>
+            <th scope="col">New Name</th>
+          </tr>
+        </thead>
+        <draggable
+          v-model="tableData"
+          :options="{ handle: '.item-handle' }"
+          tag="tbody"
+        >
+          <tr v-for="item in tableData" :key="item.name">
+            <td scope="row"><span class="item-handle">::</span></td>
+            <td>{{ item.name }}</td>
+            <td><b-form-input type="text" v-model="item.newName" /></td>
+          </tr>
+        </draggable>
+      </table>
+    </b-modal>
+  </div>
 </template>
 
 <script>
@@ -58,7 +61,9 @@ export default {
       /** 初期表示時：テーブルデータ */
       initTableData: [],
       /** テーブルデータ */
-      tableData: []
+      tableData: [],
+      /** Overlay */
+      isBusy: false
     };
   },
   methods: {
@@ -81,8 +86,18 @@ export default {
     handleOk(bvModalEvt) {
       // Prevent modal from closing
       bvModalEvt.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
+
+      // Overlayの表示
+      if (!this.isBusy) {
+        this.isBusy = true;
+        // Mock API call
+        setTimeout(() => {
+          this.isBusy = false;
+
+          // Trigger submit handler
+          this.handleSubmit();
+        }, 2500);
+      }
     },
     /** トリガー送信 */
     handleSubmit() {
